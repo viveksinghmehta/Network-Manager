@@ -9,11 +9,17 @@ import Alamofire
 import Foundation
 
 
+struct AppURLs {
+    static let baseURl = "https://viveksinghmehta.herokuapp.com/"
+}
+
+
 enum AppURL: String, CaseIterable {
     
-    case users = "https://viveksinghmehta.herokuapp.com/users"
+    case users = "users"
     case download = "asdasdasd"
     case newPAth = "hello"
+    case query = "queryParameters"
     
 }
 
@@ -24,12 +30,15 @@ enum ApiRouter {
     case download
     case path(paramters: [String: Any])
     case newPath
+    case query(parameters: [String: Any])
     
-     var method: HTTPMethod {
+    var method: HTTPMethod {
         switch self {
         case .users:
             return .get
         case .newPath:
+            return .get
+        case .query:
             return .get
         default:
             return .post
@@ -39,9 +48,11 @@ enum ApiRouter {
     var path: String {
         switch self {
         case .users:
-            return AppURL.users.rawValue
+            return AppURLs.baseURl + AppURL.users.rawValue
         case .download:
             return AppURL.download.rawValue
+        case .query:
+            return AppURLs.baseURl + AppURL.query.rawValue
         default :
             return ""
         }
@@ -53,8 +64,10 @@ enum ApiRouter {
             return nil
         case .path(let parameter):
             return parameter
+        case .query(let paramters):
+            return paramters
         default :
-           return nil
+            return nil
         }
     }
     
@@ -64,8 +77,10 @@ enum ApiRouter {
             return JSONEncoding.default
         case .download:
             return URLEncoding.default
+        case .query:
+            return URLEncoding.default
         default:
-          return JSONEncoding.default
+            return JSONEncoding.default
         }
     }
     
