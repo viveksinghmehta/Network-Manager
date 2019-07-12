@@ -1,9 +1,7 @@
 //
 //  Service.swift
-//  
-//
 //  Created by Vivek Singh Mehta on 06/05/19.
-//
+//  This file is created to be used freely and can be modified.
 
 import Alamofire
 import Foundation
@@ -18,7 +16,7 @@ enum AppURL: String, CaseIterable {
     
     case users = "users"
     case download = "asdasdasd"
-    case newPAth = "hello"
+    case newPath = "hello"
     case query = "queryParameters"
     
 }
@@ -29,19 +27,18 @@ enum ApiRouter {
     case users
     case download
     case path(paramters: [String: Any])
-    case newPath
     case query(parameters: [String: Any])
     
      var method: HTTPMethod {
         switch self {
         case .users:
             return .get
-        case .newPath:
-            return .get
         case .query:
             return .get
-        default:
-            return .post
+        case .download:
+            return .get
+        case .path:
+            return .get
         }
     }
     
@@ -53,8 +50,8 @@ enum ApiRouter {
             return AppURL.download.rawValue
         case .query:
             return AppURLs.baseURl + AppURL.query.rawValue
-        default :
-            return ""
+        case .path:
+            return AppURLs.baseURl + AppURL.path.rawValue
         }
     }
     
@@ -66,8 +63,8 @@ enum ApiRouter {
             return parameter
         case .query(let paramters):
             return paramters
-        default :
-           return nil
+        case .download:
+            return nil
         }
     }
     
